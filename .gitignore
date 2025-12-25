@@ -1,0 +1,28 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local Data (Vector Store)
+data/chroma_db/
+
+# Environment variables
+.env
+
+# IDE settings
+.vscode/
+.idea/
+
+# Images/Media generated during dev
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Logs
+*.log

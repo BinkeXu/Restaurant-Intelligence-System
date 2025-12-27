@@ -2,9 +2,14 @@
 
 The **Restaurant Intelligence System (RIS)** is a high-performance, local-first Retrieval-Augmented Generation (RAG) platform. It transforms unstructured restaurant reviews into structured, actionable business insights.
 
-## 🚀 Phase 1: MVP - Semantic Baseline
+## 🚀 Phase 2: Intelligent Metadata Filtering
 
-This phase establishes the backbone of the system using local LLMs for inference and embeddings, ensuring privacy and cost-efficiency.
+Building upon the semantic baseline, this phase introduces **Query Translation** and **Metadata Filtering**. The system now understands constraints in natural language (e.g., "1-star reviews", "Beyond Flavours") and translates them into structured database filters for higher precision.
+
+### 🛠 Tech Stack Enhancements
+- **Intelligent Chain**: Multi-step LCEL pipeline with Query Translator.
+- **Dynamic Filters**: Automated ChromaDB filter construction via LLM extraction.
+- **Data Robustness**: Pydantic-driven validation for missing timestamps and ratings.
 
 ### 🛠 Tech Stack
 - **LLM**: Llama 3.2 (via Ollama)

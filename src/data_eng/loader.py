@@ -15,6 +15,7 @@ class ReviewModel(BaseModel):
     metadata: str = Field(alias="Metadata")
     time: str = Field(alias="Time")
     pictures: int = Field(alias="Pictures")
+    has_timestamp: bool = False
 
     @validator("rating", pre=True)
     def parse_rating(cls, v):
@@ -38,6 +39,16 @@ class ReviewModel(BaseModel):
         if not isinstance(v, str):
             return ""
         return v.strip()
+
+    @validator("has_timestamp", always=True)
+    def check_timestamp(cls, v, values):
+        """
+        Determines if a valid timestamp exists based on the 'time' field.
+        """
+        time_val = values.get("time")
+        if not time_val or str(time_val).lower() in ['nan', 'none', '']:
+            return False
+        return True
 
 class ReviewDataLoader:
     """

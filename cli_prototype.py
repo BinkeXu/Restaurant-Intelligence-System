@@ -3,7 +3,7 @@ import sys
 import os
 
 from src.data_eng.ingestor import ReviewIngestor
-from src.core.chains import create_rag_chain
+from src.core.chains import create_rag_chain, create_intelligent_rag_chain
 from langchain_chroma import Chroma
 from src.utils.ollama_helpers import OllamaProvider
 
@@ -53,8 +53,8 @@ def main():
         embedding_function=embeddings
     )
     # Configure retriever (k=5 for balance between context richness and LLM context window)
-    retriever = vector_store.as_retriever(search_kwargs={"k": 5})
-    rag_chain = create_rag_chain(retriever)
+    # We now pass the vector_store to the intelligent chain which handles retrieval internally
+    rag_chain = create_intelligent_rag_chain(vector_store)
 
     # Mode selection: Single Query vs Interactive
     if args.query:

@@ -50,7 +50,8 @@ class ReviewIngestor:
                     "restaurant": review.restaurant,
                     "reviewer": review.reviewer,
                     "rating": review.rating,
-                    "time": review.time
+                    "time": review.time,
+                    "has_timestamp": review.has_timestamp
                 }
             )
             documents.append(doc)

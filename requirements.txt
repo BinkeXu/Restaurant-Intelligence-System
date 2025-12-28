@@ -1,6 +1,12 @@
 langchain
 langchain-ollama
 langchain-chroma
+langchain-community
 pandas
 pydantic
 python-dotenv
+rank_bm25
+flashrank
+ragas
+streamlit
+datasets

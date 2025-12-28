@@ -6,12 +6,11 @@ class OllamaProvider:
     Facilitates easy swapping of models and configuration.
     """
     @staticmethod
-    def get_llm(model: str = "llama3.2"):
+    def get_llm(model: str = "llama3.2", temperature: float = 0):
         """
         Returns a ChatOllama instance. 
-        Temperature is set to 0 for consistent, grounded responses in RAG flows.
         """
-        return ChatOllama(model=model, temperature=0)
+        return ChatOllama(model=model, temperature=temperature)
 
     @staticmethod
     def get_embeddings(model: str = "mxbai-embed-large"):

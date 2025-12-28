@@ -1,0 +1,14 @@
+[
+    {
+        "question": "What is the main complaint about the service at Beyond Flavours?",
+        "ground_truth": "The service is reported to be very slow, with some customers waiting up to 45 minutes for a single dish like Veg Pulav. Staff are also described as hostile and the overall experience is termed as the 'worst service experience'."
+    },
+    {
+        "question": "What are the positive aspects mentioned about Beyond Flavours?",
+        "ground_truth": "Reviewers mention good ambiance, friendly and attentive staff members (like Papiya, Ahmed, Pradeep, and Dipanajan), and well-presented food. It is also noted as a quiet place suitable for group lunches."
+    },
+    {
+        "question": "How is the food quality at Beyond Flavours described in negative reviews?",
+        "ground_truth": "In negative reviews, the food is described as 'OK' at best, 'tasteless', or 'horrible' for the main course, despite starters sometimes being decent."
+    }
+]

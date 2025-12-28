@@ -3,6 +3,9 @@ from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from src.core.prompts import get_rag_prompt, get_query_translation_prompt
 from src.utils.ollama_helpers import OllamaProvider
 from src.retrieval.filters import ChromaFilterBuilder
+from src.retrieval.hybrid_retriever import HybridRetrieverFactory
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import FlashrankRerank
 
 def format_docs(docs):
     """
@@ -35,11 +38,16 @@ def create_rag_chain(retriever):
     
     return rag_chain
 
-def create_intelligent_rag_chain(vector_store):
+def create_intelligent_rag_chain(vector_store, k: int = 5, temperature: float = 0):
     """
     Creates an advanced RAG chain that performs query translation for intelligent filtering.
+    
+    Args:
+        vector_store: ChromaDB instance.
+        k: Number of documents to retrieve before reranking.
+        temperature: LLM creativity setting.
     """
-    llm = OllamaProvider.get_llm()
+    llm = OllamaProvider.get_llm(temperature=temperature)
     translator_prompt = get_query_translation_prompt()
     rag_prompt = get_rag_prompt()
     
@@ -57,8 +65,20 @@ def create_intelligent_rag_chain(vector_store):
         # Convert simple filters to ChromaDB format
         chroma_filter = ChromaFilterBuilder.build_filter(filters_raw)
         
-        # Search with filters
-        docs = vector_store.similarity_search(clean_query, k=5, filter=chroma_filter)
+        # 3. Create Hybrid Retriever with dynamic filters
+        hybrid_retriever = HybridRetrieverFactory.create_hybrid_retriever(
+            vector_store, info_filters=chroma_filter, k=k*2 # Retrieve more for reranking
+        )
+        
+        # 4. Initialize Reranker (FlashRank)
+        compressor = FlashrankRerank(top_n=k)
+        compression_retriever = ContextualCompressionRetriever(
+            base_compressor=compressor, base_retriever=hybrid_retriever
+        )
+        
+        # Perform retrieval and reranking
+        docs = compression_retriever.invoke(clean_query)
+        
         return {"context": format_docs(docs), "question": clean_query}
 
     # 2. Complete Chain
